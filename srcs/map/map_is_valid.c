@@ -6,7 +6,7 @@
 /*   By: cle-tort <cle-tort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:48:14 by cle-tort          #+#    #+#             */
-/*   Updated: 2024/06/18 21:09:21 by cle-tort         ###   ########.fr       */
+/*   Updated: 2024/06/19 00:07:14 by cle-tort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	display_error(char *line)
 {
 	if (line)
 		free(line);
-	write(1, "Error\n Map is not valid.\n", 25);
+	write(1, "Error\nMap is not valid.\n", 25);
 	exit(1);
 }
 
@@ -88,6 +88,16 @@ void	analyze_line(t_valid_map *map)
 		display_error(map->line);
 	if (map->has_a_floor)
 		display_error(map->line);
+	i = 0;
+	while(map->line[i])
+	{
+		if (map->line[i] == 'P')
+		{
+			map->spawn_x = i;
+			map->spawn_y = map->height - 1;
+		}
+		i++;
+	}
 	if (is_only_walls(map->line, 0))
 		map->has_a_floor = true;
 	analyze_line2(map);
@@ -125,5 +135,5 @@ void	map_is_valid(char *file)
 	}
 	map_validator(&map);
 	close(fd);
-	map_is_possible(file, map.width, map.height, map.nbr_of_items);
+	map_is_possible(file, &map);
 }

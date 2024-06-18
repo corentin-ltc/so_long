@@ -17,15 +17,26 @@ typedef struct s_img
 	int	line_len;
 }		t_img;
 
+typedef struct s_pathfinder
+{
+	int	fd;
+	int	sz;
+	char	**map;
+	char	**visited;
+	char	*brut_map;
+}		t_pathfinder;
+
 typedef struct s_valid_map
 {
 	int	height;
-	int	lenght;
+	int	width;
 	char	*line;
 	bool	has_a_floor;
 	bool	has_an_exit;
 	int	nbr_of_items;
 	bool	has_a_start;
+	int	spawn_y;
+	int	spawn_x;
 }		t_valid_map;
 
 typedef struct s_data
@@ -38,10 +49,7 @@ typedef struct s_data
 char	*get_next_line(int fd);
 void	map_is_valid(char *file);
 void	display_error(char *line);
-char	**map_is_possible(char *file, int lenght, int height, int nbr_of_items);
-
-
-
+void	map_is_possible(char *file, t_valid_map *map_info);
 
 
 #endif
