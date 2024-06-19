@@ -39,17 +39,37 @@ typedef struct s_valid_map
 	int	spawn_x;
 }		t_valid_map;
 
+
+typedef struct s_game
+{
+	void	*im_wall;
+	void	*im_wall_shadow;
+	void	*im_coin_f1;
+	void	*im_coin_f2;
+	void	*im_coin_f3;
+	void	*im_coin_f4;
+	void	*im_coin_f5;
+	void	*im_floor;
+	void	*im_player;
+	void	*im_exit;
+}		t_game;
+
 typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*mlx_win;
+	char	**map;
 	t_img	img;
+	t_valid_map *map_info;
+	t_game	*game;
 }		t_data;
 
 char	*get_next_line(int fd);
-void	map_is_valid(char *file);
+char	**map_is_valid(char *file, t_valid_map *map);
 void	display_error(char *line);
-void	map_is_possible(char *file, t_valid_map *map_info);
+char	**map_is_possible(char *file, t_valid_map *map_info);
+void	freemap(char **split, char **split2, int display_error);
+
 
 
 #endif

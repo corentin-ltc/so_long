@@ -6,7 +6,7 @@
 /*   By: cle-tort <cle-tort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:41:14 by cle-tort          #+#    #+#             */
-/*   Updated: 2024/06/19 00:05:57 by cle-tort         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:37:47 by cle-tort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ void	freemap(char **split, char **split2, int display_error)
 		free(split2);
 	}
 	if (display_error == 1)
-		write(1, "Error\nAllocation failed.", 24);
+		write(1, "Error\nSomething went wrong.", 27);
 	else if (display_error == 2)
 		write(1, "Error\nMap is not possible.", 26);
 	if (display_error)
 		exit(1);
 }
 
-void	map_is_possible(char *file, t_valid_map *map_info)
+char	**map_is_possible(char *file, t_valid_map *map_info)
 {
 	t_pathfinder pathfinder;
 
@@ -84,6 +84,8 @@ void	map_is_possible(char *file, t_valid_map *map_info)
 		freemap(pathfinder.map, pathfinder.visited, 1);
 	if (!(path_finder(pathfinder.map, map_info->spawn_y, map_info->spawn_x, map_info, pathfinder.visited)))
 		freemap(pathfinder.visited, pathfinder.map, 2);
+	freemap(pathfinder.visited, 0, 0);
+	return (pathfinder.map);
 }
 
 // int main(void)

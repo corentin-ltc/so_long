@@ -3,7 +3,7 @@
 #include <X11/X.h>
 #include "so_long.h"
 
-#define SIDE_LEN 800
+#define SIDE_LEN 960
 
 void	exit_program(t_data *data)
 {
@@ -98,20 +98,23 @@ int main(void)
 	int y;
 	void *im;
 
-	if(!(im = mlx_xpm_file_to_image(data.mlx_ptr, "oldmario.xpm", &x, &y)))
+	if(!(im = mlx_xpm_file_to_image(data.mlx_ptr, "wall.xpm", &x, &y)))
 	{
 		printf("im = %p", im);
      	 	printf(" !! KO !!\n");
      		exit(1);
     	}
 	data2 = mlx_get_data_addr(im, &bpp, &sl, &endian);
-	mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, im, SIDE_LEN / 2, SIDE_LEN / 2);
+	mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, im, 0, 0);
+	mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, im, 64, 0);
+	mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, im, 128, 0);
+
 
 
 //	mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, im, 100, 100);
 //	mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, im, 500, 500);
 
 //	mlx_key_hook(data.mlx_win, handle_input, &data);
-	mlx_hook(data.mlx_win, MotionNotify, PointerMotionMask, receive_coords, 0);
+//	mlx_hook(data.mlx_win, MotionNotify, PointerMotionMask, receive_coords, 0);
 	mlx_loop(data.mlx_ptr);
 }

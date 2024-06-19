@@ -6,7 +6,7 @@
 /*   By: cle-tort <cle-tort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:48:14 by cle-tort          #+#    #+#             */
-/*   Updated: 2024/06/19 00:07:14 by cle-tort         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:58:10 by cle-tort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	display_error(char *line)
 {
 	if (line)
 		free(line);
-	write(1, "Error\nMap is not valid.\n", 25);
+	write(1, "Error\nMap is not valid.\n", 24);
 	exit(1);
 }
 
@@ -60,6 +60,8 @@ void	analyze_line2(t_valid_map *map)
 	i = 0;
 	while (map->line[i] && !map->has_a_floor)
 	{
+		if (map->line[i] != '1' && map->line[i] != '0' && map->line[i] != 'C' && map->line[i] != 'E' && map->line[i] != 'P' &&  map->line[i] != '\n')
+		 	display_error(map->line);
 		if ((i == 0 || i == map->width - 1) && map->line[i] != '1')
 			display_error(map->line);
 		if (map->line[i] == 'E')
@@ -105,35 +107,34 @@ void	analyze_line(t_valid_map *map)
 
 void	map_validator(t_valid_map *map)
 {
-	if (map->height > 100 || map->width > 100 || !map->has_a_start || !map->has_an_exit || !map->nbr_of_items || !map->has_a_floor)
+	if (map->height > 15 || map->width > 25 || !map->has_a_start || !map->has_an_exit || !map->nbr_of_items || !map->has_a_floor)
 		display_error(0);
 }
 
-void	map_is_valid(char *file)
+char	**map_is_valid(char *file, t_valid_map *map)
 {
 	int	fd;
-	t_valid_map map;
 
-	initialize_struct(&map);
+	initialize_struct(map);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		display_error(0);
-	map.line = get_next_line(fd);
-	if (!map.line)
+	map->line = get_next_line(fd);
+	if (!map->line)
 		display_error(0);
-	map.height = 1;
-	map.width = is_only_walls(map.line, 1);
-	free(map.line);
-	while (map.line)
+	map->height = 1;
+	map->width = is_only_walls(map->line, 1);
+	free(map->line);
+	while (map->line)
 	{
-		map.line = get_next_line(fd);
-		if (!map.line)
+		map->line = get_next_line(fd);
+		if (!map->line)
 			break;
-		map.height++;
-		analyze_line(&map);
-		free(map.line);
+		map->height++;
+		analyze_line(map);
+		free(map->line);
 	}
-	map_validator(&map);
+	map_validator(map);
 	close(fd);
-	map_is_possible(file, &map);
+	return(map_is_possible(file, map));
 }
