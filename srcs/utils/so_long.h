@@ -6,7 +6,10 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdbool.h>
-# include "../libft/libft.h"
+# include "../../minilibx-linux/mlx.h"
+# include <X11/keysym.h>
+# include <X11/X.h>
+# include "../../libft/libft.h"
 
 typedef struct s_pathfinder
 {
@@ -23,10 +26,10 @@ typedef struct s_valid_map
 	int	width;
 	char	*line;
 	bool	has_a_floor;
-	bool	has_an_exit;
+	int	has_an_exit;
 	int	nbr_of_items;
 	int	items_collected;
-	bool	has_a_start;
+	int	has_a_start;
 	int	spawn_y;
 	int	spawn_x;
 }		t_valid_map;
@@ -64,7 +67,27 @@ void	display_error(char *line);
 char	**map_is_possible(char *file, t_valid_map *map_info);
 void	freemap(char **split, char **split2, int display_error);
 void	free_images(t_data *data);
-int exit_game(t_data *data);
+int	exit_game(t_data *data);
+void	free_and_exit(t_data *data);
+void	init_images(t_data *data, t_game *game, char **map);
+void	init_images1(t_data *data, t_game *game);
+void	init_images2(t_data *data, t_game *game);
+void	init_images3(t_data *data, t_game *game);
+void	init_images4(t_data *data, t_game *game);
+void	init_images5(t_data *data, t_game *game);
+void	init_images6(t_data *data, t_game *game);
+void	move_right(t_data *data);
+void	move_left(t_data *data);
+void	move_up(t_data *data);
+void	move_down(t_data *data);
+int	set_elements(t_data *data);
+void	set_elements1(t_data *data, int y, int x);
+void	set_collectible(t_data *data, int y, int x, int i);
+int	handle_input(int keysym, t_data *data);
+
+
+
+
 
 
 

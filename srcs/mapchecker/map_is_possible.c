@@ -6,34 +6,35 @@
 /*   By: cle-tort <cle-tort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:41:14 by cle-tort          #+#    #+#             */
-/*   Updated: 2024/06/20 08:49:50 by cle-tort         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:57:12 by cle-tort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "../utils/so_long.h"
 
-
-int	path_finder(char **map, int y, int x, t_valid_map *map_info, char **visited)
+int	path_finder(t_pathfinder *pathfinder, int y, int x, t_valid_map *map_info)
 {
 	static int	items = 0;
 
-	if (map[y][x] == 'E' && items == map_info->nbr_of_items)
-		return (1);
-	if (map[y][x] == '1' || visited[y][x] == 'V')
+	if (pathfinder->map[y][x] == '1' || pathfinder->visited[y][x] == 'V')
 		return (0);
-	if (map[y][x] == 'C' && visited[y][x] != 'V')
+	if (pathfinder->map[y][x] == 'E' && items == map_info->nbr_of_items)
+		return (1);
+	if (pathfinder->map[y][x] == 'C' && pathfinder->visited[y][x] != 'V')
 		items++;
-	visited[y][x] = 'V';
-	if (path_finder(map, y - 1, x, map_info, visited) || path_finder(map, y + 1, x, map_info, visited) 
-			|| path_finder(map, y, x + 1, map_info, visited) || path_finder(map, y, x - 1, map_info, visited))
+	pathfinder->visited[y][x] = 'V';
+	if (path_finder(pathfinder, y - 1, x, map_info)
+		|| path_finder(pathfinder, y + 1, x, map_info))
 		return (1);
-	else
-		return (0);
+	if (path_finder(pathfinder, y, x + 1, map_info)
+		|| path_finder(pathfinder, y, x - 1, map_info))
+		return (1);
+	return (0);
 }
 
 void	freemap(char **split, char **split2, int display_error)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (split)
@@ -62,27 +63,27 @@ void	freemap(char **split, char **split2, int display_error)
 
 char	**map_is_possible(char *file, t_valid_map *map_info)
 {
-	t_pathfinder pathfinder;
+	t_pathfinder	pathfinder;
 
 	pathfinder.fd = open(file, O_RDONLY);
 	if (pathfinder.fd == -1)
 		display_error(0);
-	pathfinder.brut_map = malloc(sizeof(char) * (map_info->width * (map_info->height + 1)));
+	pathfinder.brut_map = malloc(sizeof(char)
+			*(map_info->width * (map_info->height + 1)));
 	if (!pathfinder.brut_map)
 		display_error(0);
-	pathfinder.sz = read(pathfinder.fd, pathfinder.brut_map, (map_info->width * (map_info->height + 1)));
+	pathfinder.sz = read(pathfinder.fd, pathfinder.brut_map,
+			(map_info->width * (map_info->height + 1)));
 	if (pathfinder.sz < 0)
-	{
-		free(pathfinder.brut_map);
-		display_error(0);
-	}
+		display_error(pathfinder.brut_map);
 	pathfinder.brut_map[pathfinder.sz] = 0;
 	pathfinder.map = ft_split(pathfinder.brut_map, '\n');
 	pathfinder.visited = ft_split(pathfinder.brut_map, '\n');
 	free(pathfinder.brut_map);
 	if (!pathfinder.visited || !pathfinder.map)
 		freemap(pathfinder.map, pathfinder.visited, 1);
-	if (!(path_finder(pathfinder.map, map_info->spawn_y, map_info->spawn_x, map_info, pathfinder.visited)))
+	if (!(path_finder(&pathfinder, map_info->spawn_y,
+				map_info->spawn_x, map_info)))
 		freemap(pathfinder.visited, pathfinder.map, 2);
 	freemap(pathfinder.visited, 0, 0);
 	map_info->items_collected = 0;
