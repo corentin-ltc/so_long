@@ -6,7 +6,7 @@
 /*   By: cle-tort <cle-tort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:41:14 by cle-tort          #+#    #+#             */
-/*   Updated: 2024/06/19 18:37:47 by cle-tort         ###   ########.fr       */
+/*   Updated: 2024/06/20 08:49:50 by cle-tort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,21 +85,6 @@ char	**map_is_possible(char *file, t_valid_map *map_info)
 	if (!(path_finder(pathfinder.map, map_info->spawn_y, map_info->spawn_x, map_info, pathfinder.visited)))
 		freemap(pathfinder.visited, pathfinder.map, 2);
 	freemap(pathfinder.visited, 0, 0);
+	map_info->items_collected = 0;
 	return (pathfinder.map);
 }
-
-// int main(void)
-// {
-// 	char **map;
-
-// 	map = map_is_possible("test.ber", 13, 6, 4);
-
-// 	for (int y = 0; y < 6; y++)
-// 	{
-// 		for (int x = 0; x < 13;  x++)
-// 		{
-// 			printf("%c", map[y][x]);
-// 		}
-// 		printf("\n");
-// 	}
-// }
