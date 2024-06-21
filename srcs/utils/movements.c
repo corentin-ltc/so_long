@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   movements.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cle-tort <cle-tort@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 01:36:37 by cle-tort          #+#    #+#             */
+/*   Updated: 2024/06/21 01:37:27 by cle-tort         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "so_long.h"
 
@@ -38,7 +49,8 @@ void	move_down(t_data *data)
 		x = 0;
 		while (data->map[y][x])
 		{
-			if (data->map[y][x] == 'P' && y < data->map_info->height - 2 && data->map[y + 1][x] != '1')
+			if (data->map[y][x] == 'P' && y < data->map_info->height - 2
+				&& data->map[y + 1][x] != '1')
 			{
 				++data->movements_count;
 				if (data->map[y + 1][x] == 'C')
@@ -90,7 +102,8 @@ void	move_right(t_data *data)
 		x = 0;
 		while (data->map[y][x])
 		{
-			if (data->map[y][x] == 'P' && x < data->map_info->width - 2 && data->map[y][x + 1] != '1')
+			if (data->map[y][x] == 'P' && x < data->map_info->width - 2
+				&& data->map[y][x + 1] != '1')
 			{
 				++data->movements_count;
 				if (data->map[y][x + 1] == 'C')
@@ -110,12 +123,12 @@ int	handle_input(int keysym, t_data *data)
 	if (keysym == XK_Escape)
 		exit_game(data);
 	if (keysym == XK_w)
-	 	move_up(data);
+		move_up(data);
 	else if (keysym == XK_s)
-	 	move_down(data);
+		move_down(data);
 	else if (keysym == XK_a)
-	 	move_left(data);
+		move_left(data);
 	else if (keysym == XK_d)
-	 	move_right(data);
+		move_right(data);
 	return (0);
 }

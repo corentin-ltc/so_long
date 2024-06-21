@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"so_long.h": "c",
+		"mlx.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: cle-tort <cle-tort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 10:59:39 by cle-tort          #+#    #+#             */
-/*   Updated: 2024/06/20 13:28:29 by cle-tort         ###   ########.fr       */
+/*   Updated: 2024/06/21 01:58:56 by cle-tort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	init_images8(t_data *data, t_game *game)
 
 void	init_images(t_data *data, t_game *game, char **map)
 {
+	data->exit_x = -1;
+	data->movements_count = 0;
 	init_images1(data, game);
 	init_images2(data, game);
 	init_images3(data, game);

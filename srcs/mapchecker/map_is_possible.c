@@ -6,7 +6,7 @@
 /*   By: cle-tort <cle-tort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:41:14 by cle-tort          #+#    #+#             */
-/*   Updated: 2024/06/20 13:57:12 by cle-tort         ###   ########.fr       */
+/*   Updated: 2024/06/21 01:48:17 by cle-tort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	path_finder(t_pathfinder *pathfinder, int y, int x, t_valid_map *map_info)
 {
 	static int	items = 0;
 
-	if (pathfinder->map[y][x] == '1' || pathfinder->visited[y][x] == 'V')
-		return (0);
 	if (pathfinder->map[y][x] == 'E' && items == map_info->nbr_of_items)
 		return (1);
+	if (pathfinder->map[y][x] == '1' || pathfinder->visited[y][x] == 'V')
+		return (0);
 	if (pathfinder->map[y][x] == 'C' && pathfinder->visited[y][x] != 'V')
 		items++;
 	pathfinder->visited[y][x] = 'V';
